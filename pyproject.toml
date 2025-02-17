@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "flake"
+version = "0.1.0"
+description = "LéXPLORE datalakes tagging"
+authors = ["ymarcon <yannick.marcon@epfl.ch>"]
+license = "GPLv3"
+readme = "README.md"
+
+[tool.poetry.scripts]
+flake = 'flake.app:main'
+
+[tool.poetry.dependencies]
+python = "^3.10"
+apscheduler = "^3.11.0"
+pysftp = "^0.2.9"
+pyyaml = "^6.0.2"
+tenacity = "^9.0.0"
+typer = "^0.15.1"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
