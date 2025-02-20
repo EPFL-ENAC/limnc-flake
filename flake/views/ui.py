@@ -81,10 +81,10 @@ class FlakeUI(ttk.Frame):
         self.buttons.append(
             ttk.Button(
                 master=container,
-                text="Restart",
+                text="Refresh",
                 width=10,
                 bootstyle=SUCCESS,
-                command=self.on_restart,
+                command=self.on_refresh,
             )
         )
         self.buttons.append(
@@ -130,10 +130,8 @@ class FlakeUI(ttk.Frame):
         self.status_text.set(resp["status"])
         self.update_status_display()
 
-    def on_restart(self):
-        resp = self.scheduler.stop()
-        self.status_text.set(resp["status"])
-        resp = self.scheduler.start()
+    def on_refresh(self):
+        resp = self.scheduler.get_status()
         self.status_text.set(resp["status"])
         self.update_status_display()
 
