@@ -11,11 +11,10 @@ flake = 'flake.app:main'
 
 [tool.poetry.dependencies]
 python = "^3.10"
-apscheduler = "^3.11.0"
-pysftp = "^0.2.9"
 pyyaml = "^6.0.2"
-tenacity = "^9.0.0"
 typer = "^0.15.1"
+ttkbootstrap = "^1.10.1"
+requests = "^2.32.3"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.4"

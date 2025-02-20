@@ -2,7 +2,7 @@ install:
 	poetry install
 
 test:
-	poetry run pytest
+	poetry run pytest -s
 
 build:
 	poetry build
@@ -10,5 +10,3 @@ build:
 clean:
 	rm -rf dist
 
-local-install:
-	pip install ./dist/*.tar.gz
