@@ -130,7 +130,21 @@ def job_resume(url: str = default_url,
                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
     """Resume a scheduler's job"""
     printJson(JobView(url, id).resume(), pretty)
-    
+
+# Config commands
+
+@app.command()
+def general(url: str = default_url,
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+    """Get general configuration"""
+    printJson(ConfigView(url).get_general(), pretty)
+
+@app.command()
+def runtime(url: str = default_url,
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+    """Get runtime information"""
+    printJson(ConfigView(url).get_runtime(), pretty)
+
 # Instrument commands
 
 @app.command()
@@ -138,7 +152,7 @@ def instruments(url: str = default_url,
                 pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
     """Get all instrument configurations"""
     printJson(ConfigView(url).get_instruments(), pretty)
-
+    
 @app.command()
 def instrument(url: str = default_url,
                id: str = typer.Argument(help="The ID of the instrument"),
