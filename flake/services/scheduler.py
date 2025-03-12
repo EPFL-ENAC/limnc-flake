@@ -5,6 +5,10 @@ class SchedulerService:
   def __init__(self, url: str):
     self.url = url
   
+  def get_jobs(self):
+    # request GET /scheduler/jobs
+    resp = requests.get(f"{self.url}/scheduler/jobs")
+    return resp.json()
   
   def get_status(self):
     # request GET /scheduler/status

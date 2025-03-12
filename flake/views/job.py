@@ -1,12 +1,12 @@
-from ..services.scheduler import SchedulerService
+from ..services.job import JobService
 
-class SchedulerView:
+class JobView:
   
-  def __init__(self, url: str):
-    self.service = SchedulerService(url)
+  def __init__(self, url: str, id: str):
+    self.service = JobService(url, id)
   
-  def get_jobs(self):
-    return self.service.get_jobs()
+  def get(self):
+    return self.service.get()
   
   def get_status(self):
     return self.service.get_status()
