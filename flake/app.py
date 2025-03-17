@@ -131,6 +131,13 @@ def job_resume(url: str = default_url,
     """Resume a scheduler's job"""
     printJson(JobView(url, id).resume(), pretty)
 
+@app.command()
+def job_run(url: str = default_url,
+                id: str = typer.Argument(help="The ID of the job"),
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+    """Trigger a scheduler's job one-time immediate execution (works even if job is paused)"""
+    printJson(JobView(url, id).run(), pretty)
+
 # Config commands
 
 @app.command()

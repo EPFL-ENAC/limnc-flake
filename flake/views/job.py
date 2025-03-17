@@ -26,3 +26,6 @@ class JobView:
   
   def resume(self):
     return self.service.resume()
+  
+  def run(self):
+    return self.service.run()

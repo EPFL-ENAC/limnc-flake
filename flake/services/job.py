@@ -34,3 +34,8 @@ class JobService:
     # request PUT /scheduler/job/{id}?action=resume
     resp = requests.put(f"{self.url}/scheduler/job/{self.id}/status", params={"action": "resume"})
     return resp.json()
+  
+  def run(self):
+    # request POST /scheduler/job/{id}
+    resp = requests.post(f"{self.url}/scheduler/job/{self.id}")
+    return resp.json()
