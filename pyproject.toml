@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "flake"
-version = "0.1.0"
-description = "LéXPLORE datalakes tagging"
+version = "0.9.0"
+description = "LéXPLORE datalakes (cli)"
 authors = ["ymarcon <yannick.marcon@epfl.ch>"]
 license = "GPLv3"
 readme = "README.md"
