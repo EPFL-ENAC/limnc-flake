@@ -5,8 +5,8 @@ class ConfigView:
   def __init__(self, url: str):
     self.service = ConfigService(url)
   
-  def get_general(self):
-    return self.service.get_general()
+  def get_settings(self):
+    return self.service.get_settings()
   
   def get_runtime(self):
     return self.service.get_runtime()

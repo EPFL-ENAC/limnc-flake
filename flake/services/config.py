@@ -5,9 +5,9 @@ class ConfigService:
   def __init__(self, url: str):
     self.url = url
   
-  def get_general(self):
-    # request GET /config/general
-    resp = requests.get(f"{self.url}/config/general")
+  def get_settings(self):
+    # request GET /config/settings
+    resp = requests.get(f"{self.url}/config/settings")
     return resp.json()
   
   def get_runtime(self):

@@ -141,10 +141,10 @@ def job_run(url: str = default_url,
 # Config commands
 
 @app.command()
-def general(url: str = default_url,
+def settings(url: str = default_url,
                 pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
-    """Get general configuration"""
-    printJson(ConfigView(url).get_general(), pretty)
+    """Get system configuration"""
+    printJson(ConfigView(url).get_settings(), pretty)
 
 @app.command()
 def runtime(url: str = default_url,
