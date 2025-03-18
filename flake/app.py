@@ -1,5 +1,6 @@
 import typer
 import json
+import sys
 from typing import Optional
 from pathlib import Path
 from logging import INFO, basicConfig, info, warning, error
@@ -24,6 +25,12 @@ def printJson(data: dict, pretty: bool = True):
     else:
         print(json.dumps(data))
 
+def handleException(e: Exception, verbose: bool = False):
+    if verbose:
+        raise e
+    print(e, file=sys.stderr)
+    sys.exit(1)
+
 @app.command()
 def ui(url: str = default_url):
     """Start the Flake dashboard"""
@@ -40,140 +47,221 @@ def ui(url: str = default_url):
 
 @app.command()
 def status(url: str = default_url,
-           pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+           pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+           verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get the status of the scheduler"""
-    printJson(SchedulerView(url).get_status(), pretty)
-
+    try:
+        printJson(SchedulerView(url).get_status(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
+    
 @app.command()
 def start(url: str = default_url,
-          pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+          pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+          verbose: bool = typer.Option(False, help="Print detailed error")):
     """Start the scheduler"""
-    printJson(SchedulerView(url).start(), pretty)
+    try:
+        printJson(SchedulerView(url).start(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def stop(url: str = default_url,
-         pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+         pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+         verbose: bool = typer.Option(False, help="Print detailed error")):
     """Stop the scheduler"""
-    printJson(SchedulerView(url).stop(), pretty)
+    try:
+        printJson(SchedulerView(url).stop(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def restart(url: str = default_url,
-            pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+            pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+            verbose: bool = typer.Option(False, help="Print detailed error")):
     """Restart the scheduler"""
-    printJson(SchedulerView(url).restart(), pretty)
+    try:
+        printJson(SchedulerView(url).restart(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def pause(url: str = default_url,
-          pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+          pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+          verbose: bool = typer.Option(False, help="Print detailed error")):
     """Pause the scheduler"""
-    printJson(SchedulerView(url).pause(), pretty)
+    try:
+        printJson(SchedulerView(url).pause(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def resume(url: str = default_url,
-           pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+           pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+           verbose: bool = typer.Option(False, help="Print detailed error")):
     """Resume the scheduler"""
-    printJson(SchedulerView(url).resume(), pretty)
-    
+    try:
+        printJson(SchedulerView(url).resume(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
+
 # Job commands
 
 @app.command()
 def jobs(url: str = default_url,
-         pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+         pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+         verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get all jobs in the scheduler"""
-    printJson(SchedulerView(url).get_jobs(), pretty)
+    try:
+        printJson(SchedulerView(url).get_jobs(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
+        
     
 @app.command()
 def job(url: str = default_url,
         id: str = typer.Argument(help="The ID of the job"), 
-        pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+        pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+        verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get a scheduler's job"""
-    printJson(JobView(url, id).get(), pretty)
+    try:
+        printJson(JobView(url, id).get(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
     
 @app.command()
 def job_status(url: str = default_url,
                id: str = typer.Argument(help="The ID of the job"),
-               pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+               pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+               verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get the status of a scheduler's job"""
-    printJson(JobView(url, id).get_status(), pretty)
+    try:
+        printJson(JobView(url, id).get_status(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def job_start(url: str = default_url,
               id: str = typer.Argument(help="The ID of the job"),
-              pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+              pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+              verbose: bool = typer.Option(False, help="Print detailed error")):
     """Start a scheduler's job"""
-    printJson(JobView(url, id).start(), pretty)
+    try:
+        printJson(JobView(url, id).start(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def job_stop(url: str = default_url,
              id: str = typer.Argument(help="The ID of the job"),
-             pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+             pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+             verbose: bool = typer.Option(False, help="Print detailed error")):
     """Stop a scheduler's job"""
-    printJson(JobView(url, id).stop(), pretty)
+    try:
+        printJson(JobView(url, id).stop(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def job_restart(url: str = default_url,
                 id: str = typer.Argument(help="The ID of the job"),
-                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+                verbose: bool = typer.Option(False, help="Print detailed error")):
     """Restart a scheduler's job"""
-    printJson(JobView(url, id).restart(), pretty)
+    try:
+        printJson(JobView(url, id).restart(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def job_pause(url: str = default_url,
               id: str = typer.Argument(help="The ID of the job"),
-              pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+              pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+              verbose: bool = typer.Option(False, help="Print detailed error")):
     """Pause a scheduler's job"""
-    printJson(JobView(url, id).pause(), pretty)
+    try:
+        printJson(JobView(url, id).pause(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def job_resume(url: str = default_url,
                id: str = typer.Argument(help="The ID of the job"),
-               pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+               pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+               verbose: bool = typer.Option(False, help="Print detailed error")):
     """Resume a scheduler's job"""
-    printJson(JobView(url, id).resume(), pretty)
+    try:
+        printJson(JobView(url, id).resume(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def job_run(url: str = default_url,
                 id: str = typer.Argument(help="The ID of the job"),
-                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+                verbose: bool = typer.Option(False, help="Print detailed error")):
     """Trigger a scheduler's job one-time immediate execution (works even if job is paused)"""
-    printJson(JobView(url, id).run(), pretty)
+    try:
+        printJson(JobView(url, id).run(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 # Config commands
 
 @app.command()
 def settings(url: str = default_url,
-                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+                verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get system configuration"""
-    printJson(ConfigView(url).get_settings(), pretty)
+    try:
+        printJson(ConfigView(url).get_settings(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def runtime(url: str = default_url,
-                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+                verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get runtime information"""
-    printJson(ConfigView(url).get_runtime(), pretty)
+    try:
+        printJson(ConfigView(url).get_runtime(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 # Instrument commands
 
 @app.command()
 def instruments(url: str = default_url,
-                pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+                pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+                verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get all instrument configurations"""
-    printJson(ConfigView(url).get_instruments(), pretty)
-    
+    try:
+        printJson(ConfigView(url).get_instruments(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
+
 @app.command()
 def instrument(url: str = default_url,
                id: str = typer.Argument(help="The ID of the instrument"),
-               pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+               pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+               verbose: bool = typer.Option(False, help="Print detailed error")):
     """Get an instrument configuration"""
-    printJson(InstrumentView(url, id).get(), pretty)
+    try:
+        printJson(InstrumentView(url, id).get(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 @app.command()
 def instrument_remove(url: str = default_url,
                id: str = typer.Argument(help="The ID of the instrument"),
-               pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+               pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+               verbose: bool = typer.Option(False, help="Print detailed error")):
     """Remove an instrument from configuration"""
-    printJson(InstrumentView(url, id).remove(), pretty)
-    
+    try:
+        printJson(InstrumentView(url, id).remove(), pretty)
+    except Exception as e:
+        handleException(e, verbose)
+
 @app.command()
 def instrument_update(url: str = default_url,
                       json_file: Optional[Path] = typer.Option(
@@ -188,7 +276,8 @@ def instrument_update(url: str = default_url,
                         "--json", "-j",
                         help="Instrument configuration as a JSON string",
                       ),
-                      pretty: bool = typer.Option(False, help="Pretty print the JSON output")):
+                      pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+                      verbose: bool = typer.Option(False, help="Print detailed error")):
     """Add or update an instrument configuration"""
     data = None
     
@@ -213,8 +302,10 @@ def instrument_update(url: str = default_url,
         typer.echo("Error: No JSON data provided", err=True)
         raise typer.Exit(code=1)
     
-    printJson(ConfigView(url).add_or_update_instrument(data), pretty)
-
+    try:
+        printJson(ConfigView(url).add_or_update_instrument(data), pretty)
+    except Exception as e:
+        handleException(e, verbose)
 
 def main() -> None:
     """The main function of the application
