@@ -5,8 +5,8 @@ class SchedulerView:
   def __init__(self, url: str):
     self.service = SchedulerService(url)
   
-  def get_jobs(self):
-    return self.service.get_jobs()
+  def get_jobs(self, name: str = None):
+    return self.service.get_jobs(name)
   
   def get_status(self):
     return self.service.get_status()

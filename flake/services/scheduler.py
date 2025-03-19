@@ -5,15 +5,18 @@ class SchedulerService:
   def __init__(self, url: str):
     self.url = url
   
-  def get_jobs(self):
+  def get_jobs(self, name: str = None):
     # request GET /scheduler/jobs
-    resp = requests.get(f"{self.url}/scheduler/jobs")
+    resp = requests.get(f"{self.url}/scheduler/jobs", params={"name": name})
     return resp.json()
   
   def get_status(self):
     # request GET /scheduler/status
-    resp = requests.get(f"{self.url}/scheduler/status")
-    return resp.json()
+    try:
+      resp = requests.get(f"{self.url}/scheduler/status")
+      return resp.json()
+    except Exception as e:
+      return {"status": "error", "message": str(e)}
   
   def start(self):
     # request PUT /scheduler?action=start

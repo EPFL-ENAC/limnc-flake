@@ -34,7 +34,7 @@ def handleException(e: Exception, debug: bool = False):
 @app.command()
 def ui(url: str = default_url):
     """Start the Flake dashboard"""
-    typer.echo("UI command")
+    #typer.echo("UI command")
     app = ttk.Window(
         title="Flake", 
         themename=theme_name, 
@@ -109,11 +109,12 @@ def resume(url: str = default_url,
 
 @app.command()
 def jobs(url: str = default_url,
+         instrument: Optional[str] = typer.Option(None, help="Filter jobs by instrument"),
          pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
          debug: bool = typer.Option(False, help="Print detailed error")):
     """Get all jobs in the scheduler"""
     try:
-        printJson(SchedulerView(url).get_jobs(), pretty)
+        printJson(SchedulerView(url).get_jobs(instrument), pretty)
     except Exception as e:
         handleException(e, debug)
         
@@ -242,23 +243,35 @@ def instruments(url: str = default_url,
 
 @app.command()
 def instrument(url: str = default_url,
-               id: str = typer.Argument(help="The ID of the instrument"),
+               name: str = typer.Argument(help="The name of the instrument"),
                pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
                debug: bool = typer.Option(False, help="Print detailed error")):
     """Get an instrument configuration"""
     try:
-        printJson(InstrumentView(url, id).get(), pretty)
+        printJson(InstrumentView(url, name).get(), pretty)
+    except Exception as e:
+        handleException(e, debug)
+
+@app.command()
+def instrument_logs(url: str = default_url,
+               name: str = typer.Argument(help="The name of the instrument"),
+               tail: int = typer.Option(100, help="Number of the last log lines to retrieve, all lines if not positive", show_default=True),
+               debug: bool = typer.Option(False, help="Print detailed error")):
+    """Get the instrument logs"""
+    try:
+        for line in InstrumentView(url, name).get_logs_stream(tail):
+            print(line)
     except Exception as e:
         handleException(e, debug)
 
 @app.command()
 def instrument_remove(url: str = default_url,
-               id: str = typer.Argument(help="The ID of the instrument"),
+               name: str = typer.Argument(help="The name of the instrument"),
                pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
                debug: bool = typer.Option(False, help="Print detailed error")):
     """Remove an instrument from configuration"""
     try:
-        printJson(InstrumentView(url, id).remove(), pretty)
+        printJson(InstrumentView(url, name).remove(), pretty)
     except Exception as e:
         handleException(e, debug)
 
