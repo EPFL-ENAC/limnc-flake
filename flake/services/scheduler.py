@@ -7,7 +7,10 @@ class SchedulerService:
   
   def get_jobs(self, name: str = None):
     # request GET /scheduler/jobs
-    resp = requests.get(f"{self.url}/scheduler/jobs", params={"name": name})
+    params = {}
+    if name is not None:
+        params["name"] = name
+    resp = requests.get(f"{self.url}/scheduler/jobs", params=params)
     return resp.json()
   
   def get_status(self):
