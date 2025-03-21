@@ -1,0 +1,9 @@
+site_name: EPFL Flake
+nav:
+  - Home: index.md
+  - Guide: guide.md
+theme:
+  name: material
+repo_url: https://github.com/EPFL-ENAC/limnc-flake
+plugins:
+  - search
