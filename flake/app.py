@@ -259,8 +259,22 @@ def instrument_logs(url: str = default_url,
                debug: bool = typer.Option(False, help="Print detailed error")):
     """Get the instrument logs"""
     try:
-        for line in InstrumentView(url, name).get_logs_stream(tail):
+        for line in InstrumentView(url, name).get_log_lines(tail):
             print(line)
+    except Exception as e:
+        handleException(e, debug)
+        
+@app.command()
+def instrument_log_files(url: str = default_url,
+               name: str = typer.Argument(help="The name of the instrument"),
+               file: str = typer.Option("", help="The path to the zip file to write, default is <name.zip> in the current working directory", show_default=True),
+               debug: bool = typer.Option(False, help="Print detailed error")):
+    """Get the instrument log files in a zip"""
+    try:
+        zip_file = file if file else f"{name}.zip"
+        with open(zip_file, "wb") as file:
+            for chunk in InstrumentView(url, name).get_log_stream():
+                file.write(chunk)
     except Exception as e:
         handleException(e, debug)
 

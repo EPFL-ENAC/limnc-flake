@@ -15,10 +15,16 @@ class InstrumentService:
     resp = requests.get(f"{self.url}/logs/instrument/{self.name}", params={"tail": tail})
     return resp.text
   
-  def get_logs_stream(self, tail: int = 100):
+  def get_log_lines(self, tail: int = 100):
     # request GET /logs/instrument/{id}
     resp = requests.get(f"{self.url}/logs/instrument/{self.name}", params={"tail": tail}, stream=True)
     return resp.iter_lines(decode_unicode=True)
+  
+  def get_log_stream(self):
+    # request GET /logs/instrument/{id}/files
+    resp = requests.get(f"{self.url}/logs/instrument/{self.name}/files", stream=True)
+    resp.raise_for_status()
+    return resp.iter_content(chunk_size=8192)
   
   def remove(self):
     # request DELETE /config/instrument/{id}
