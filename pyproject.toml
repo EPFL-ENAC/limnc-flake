@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flake"
-version = "1.0.0"
+version = "0.10.0"
 description = "LéXPLORE datalakes (cli)"
 authors = ["ymarcon <yannick.marcon@epfl.ch>"]
 license = "GPLv3"
