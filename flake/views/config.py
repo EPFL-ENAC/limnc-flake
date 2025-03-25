@@ -5,6 +5,9 @@ class ConfigView:
   def __init__(self, url: str):
     self.service = ConfigService(url)
   
+  def reload(self):
+    return self.service.reload()
+  
   def get_settings(self):
     return self.service.get_settings()
   

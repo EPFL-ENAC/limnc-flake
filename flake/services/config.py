@@ -5,6 +5,11 @@ class ConfigService:
   def __init__(self, url: str):
     self.url = url
   
+  def reload(self):
+    # request PUT /config/
+    resp = requests.put(f"{self.url}/config/")
+    return resp.json()
+  
   def get_settings(self):
     # request GET /config/settings
     resp = requests.get(f"{self.url}/config/settings")

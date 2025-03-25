@@ -210,10 +210,20 @@ def job_run(url: str = default_url,
 # Config commands
 
 @app.command()
+def config_reload(url: str = default_url,
+                  pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
+                  debug: bool = typer.Option(False, help="Print detailed error")):
+    """Reload configuration, update the scheduler jobs accordingly"""
+    try:
+        printJson(ConfigView(url).reload(), pretty)
+    except Exception as e:
+        handleException(e, debug)
+
+@app.command()
 def settings(url: str = default_url,
                 pretty: bool = typer.Option(False, help="Pretty print the JSON output"),
                 debug: bool = typer.Option(False, help="Print detailed error")):
-    """Get system configuration"""
+    """Get settings configuration"""
     try:
         printJson(ConfigView(url).get_settings(), pretty)
     except Exception as e:
